@@ -20,8 +20,8 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-
-import org.apache.log4j.Logger;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import com.octo.java.sql.exp.Column;
 import com.octo.java.sql.exp.Exp;
@@ -38,7 +38,7 @@ public abstract class Query<T extends Query<T>> implements Visitable {
   /**
    * Logger for this class
    */
-  private static final Logger logger = Logger.getLogger(Query.class);
+  private static final Logger logger = Logger.getLogger(Query.class.getName());
 
   /**
    * Set it to false when using HSQLDB
@@ -155,8 +155,9 @@ public abstract class Query<T extends Query<T>> implements Visitable {
     builder = queryBuilder;
     accept(builder);
     final String sqlQuery = builder.getResult().toString();
-    if (logger.isDebugEnabled())
-      logger.debug("buildSQLQuery() - String sqlQuery=" + sqlQuery);
+    if (logger.isLoggable(Level.FINE)) {
+      logger.fine("buildSQLQuery() - String sqlQuery=" + sqlQuery);
+    }
     return sqlQuery;
   }
 

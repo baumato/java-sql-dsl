@@ -1,17 +1,14 @@
 package com.octo.java.sql.query;
 
-import static org.apache.commons.collections.CollectionUtils.exists;
-import static org.apache.commons.lang.ArrayUtils.isEmpty;
-import static org.apache.commons.lang.StringUtils.isEmpty;
+import static com.octo.java.sql.util.CollectionUtils.exists;
+import static com.octo.java.sql.util.ArrayUtils.isEmpty;
+import static com.octo.java.sql.util.StringUtils.isEmpty;
 
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-
-import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.collections.Predicate;
 
 import com.octo.java.sql.exp.BetweenExp;
 import com.octo.java.sql.exp.Column;
@@ -22,6 +19,8 @@ import com.octo.java.sql.exp.InExp;
 import com.octo.java.sql.exp.JoinClause;
 import com.octo.java.sql.exp.OpExp;
 import com.octo.java.sql.query.visitor.DefaultVisitor;
+import com.octo.java.sql.util.CollectionUtils;
+import com.octo.java.sql.util.CollectionUtils.Predicate;
 
 public class BasicQueryOptimizer extends DefaultVisitor {
   private final Set<String> usedTables = new HashSet<String>();

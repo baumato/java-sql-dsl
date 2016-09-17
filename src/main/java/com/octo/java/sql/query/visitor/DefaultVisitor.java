@@ -16,9 +16,9 @@
 
 package com.octo.java.sql.query.visitor;
 
-import static org.apache.commons.lang.ArrayUtils.isEmpty;
+import static com.octo.java.sql.util.ArrayUtils.isEmpty;
 
-import org.apache.commons.collections.map.ListOrderedMap;
+import java.util.LinkedHashMap;
 
 import com.octo.java.sql.exp.BetweenExp;
 import com.octo.java.sql.exp.Column;
@@ -111,8 +111,8 @@ public class DefaultVisitor extends BaseVisitor {
   }
 
   public void visit(final InsertQuery insertQuery) throws QueryException {
-    final ListOrderedMap columnValues = insertQuery.getColumnsValues();
-    for (final Object column : columnValues.keyList())
+    final LinkedHashMap<String, Object> columnValues = insertQuery.getColumnsValues();
+    for (final Object column : columnValues.keySet())
       acceptOrVisitValue(columnValues.get(column));
   }
 

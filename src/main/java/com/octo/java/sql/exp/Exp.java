@@ -16,7 +16,7 @@
 
 package com.octo.java.sql.exp;
 
-import static org.apache.commons.lang.StringUtils.isEmpty;
+import static com.octo.java.sql.util.StringUtils.isEmpty;
 
 import java.util.Collection;
 

@@ -16,15 +16,14 @@
 
 package com.octo.java.sql.query.visitor;
 
-import static org.apache.commons.collections.CollectionUtils.isEmpty;
-import static org.apache.commons.lang.ArrayUtils.isEmpty;
-import static org.apache.commons.lang.StringUtils.isEmpty;
-import static org.apache.commons.lang.StringUtils.join;
+import static com.octo.java.sql.util.CollectionUtils.isEmpty;
+import static com.octo.java.sql.util.ArrayUtils.isEmpty;
+import static com.octo.java.sql.util.StringUtils.isEmpty;
+import static com.octo.java.sql.util.StringUtils.join;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
-
-import org.apache.commons.collections.map.ListOrderedMap;
 
 import com.octo.java.sql.exp.BetweenExp;
 import com.octo.java.sql.exp.Column;
@@ -339,12 +338,12 @@ public class DefaultQueryBuilder extends BaseVisitor {
     result.append(INSERT).append(" ");
     result.append(insertQuery.getTable()).append(" ");
     result.append(OPEN_BRACKET);
-    final ListOrderedMap columnValues = insertQuery.getColumnsValues();
-    result.append(join(columnValues.keyList(), ", "));
+    final LinkedHashMap<String, Object> columnValues = insertQuery.getColumnsValues();
+    result.append(join(columnValues.keySet(), ", "));
     result.append(CLOSE_BRACKET).append(" ");
     result.append(VALUES).append(" ").append(OPEN_BRACKET);
     boolean firstClause = true;
-    for (final Object column : columnValues.keyList()) {
+    for (final Object column : columnValues.keySet()) {
       if (firstClause) {
         firstClause = false;
       } else {

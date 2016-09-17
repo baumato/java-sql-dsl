@@ -16,12 +16,12 @@
 
 package com.octo.java.sql.query;
 
-import org.apache.commons.collections.map.ListOrderedMap;
+import java.util.LinkedHashMap;
 
 import com.octo.java.sql.query.visitor.QueryVisitor;
 
 public class InsertQuery extends Query<InsertQuery> {
-  private final ListOrderedMap columnsValues = new ListOrderedMap();
+  private final LinkedHashMap<String, Object> columnsValues = new LinkedHashMap<String, Object>();
   private final String table;
 
   /**
@@ -54,7 +54,7 @@ public class InsertQuery extends Query<InsertQuery> {
     visitor.visit(this);
   }
 
-  public ListOrderedMap getColumnsValues() {
+  public LinkedHashMap<String, Object> getColumnsValues() {
     return columnsValues;
   }
 
