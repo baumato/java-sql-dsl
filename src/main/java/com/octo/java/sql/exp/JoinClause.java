@@ -65,16 +65,16 @@ public class JoinClause implements Visitable {
   }
 
   public SelectQuery eq(final Object value) throws QueryGrammarException {
-    assertOnClauseIsInitialized("eq");
-    onClause = onClause.eq(value);
+    onClause = checkOnClauseIsInitialized(onClause, "eq").eq(value);
     return query;
   }
 
-  private void assertOnClauseIsInitialized(final String operation)
+  private Exp checkOnClauseIsInitialized(final Exp onClause, final String operation)
       throws QueryGrammarException {
     if (onClause == null)
       throw new QueryGrammarException("Cannot apply '" + operation
           + "' operation without an initialized join clause.");
+    return onClause;
   }
 
   public void accept(final QueryVisitor visitor) throws QueryException {

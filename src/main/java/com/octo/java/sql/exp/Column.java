@@ -59,9 +59,9 @@ public class Column implements Visitable {
   }
 
   public String getTableName() {
-    if (name.indexOf(".") > 0)
-      return name.split("\\.")[0];
-    else
+    if (name.indexOf('.') <= 0) {
       return null;
+    }
+    return name.split("\\.")[0]; 
   }
 }
