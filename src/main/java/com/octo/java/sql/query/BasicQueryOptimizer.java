@@ -8,6 +8,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import com.octo.java.sql.exp.BetweenExp;
@@ -23,6 +24,21 @@ import com.octo.java.sql.util.CollectionUtils;
 import com.octo.java.sql.util.CollectionUtils.Predicate;
 
 public class BasicQueryOptimizer extends DefaultVisitor {
+  
+  private static final class IsNullValuePredicate implements Predicate {
+
+    public boolean evaluate(final Object object) {
+      return object == null;
+    }
+  }
+  
+  private static final class IsValidExpPredicate implements Predicate {
+    
+    public boolean evaluate(final Object exp) {
+      return ((Exp) exp).isValid();
+    }
+  }
+
   private final Set<String> usedTables = new HashSet<String>();
   private final Map<String, Set<String>> tableReverseDependency = new HashMap<String, Set<String>>();
   private final Map<String, JoinClause> tableJoin = new HashMap<String, JoinClause>();
@@ -43,11 +59,7 @@ public class BasicQueryOptimizer extends DefaultVisitor {
       inExp.invalidate();
     else {
       final boolean atLeastOneInValueIsNull = exists(Arrays.asList(inExp
-          .getValues()), new Predicate() {
-        public boolean evaluate(final Object object) {
-          return object == null;
-        }
-      });
+          .getValues()), new IsNullValuePredicate());
       if (atLeastOneInValueIsNull)
         inExp.invalidate();
     }
@@ -63,12 +75,7 @@ public class BasicQueryOptimizer extends DefaultVisitor {
   @Override
   public void visit(final ExpSeq expSeq) throws QueryException {
     super.visit(expSeq);
-    final boolean atLeastOneExpIsValid = exists(expSeq.getClauses(),
-        new Predicate() {
-          public boolean evaluate(final Object exp) {
-            return ((Exp) exp).isValid();
-          }
-        });
+    final boolean atLeastOneExpIsValid = exists(expSeq.getClauses(), new IsValidExpPredicate());
     if (!atLeastOneExpIsValid)
       expSeq.invalidate();
   }
@@ -96,9 +103,9 @@ public class BasicQueryOptimizer extends DefaultVisitor {
   @Override
   public void visit(final SelectQuery query) throws QueryException {
     super.visit(query);
-    for (final String table : tableJoin.keySet())
-      if (!isJoinNecessary(table))
-        tableJoin.get(table).invalidate();
+    for (final Entry<String, JoinClause> table : tableJoin.entrySet())
+      if (!isJoinNecessary(table.getKey()))
+        table.getValue().invalidate();
   }
 
   @Override
