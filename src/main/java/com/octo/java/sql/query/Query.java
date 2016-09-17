@@ -43,7 +43,7 @@ public abstract class Query<T extends Query<T>> implements Visitable {
   /**
    * Set it to false when using HSQLDB
    */
-  public static boolean oracleDialect = true;
+  public static final boolean oracleDialect = true;
   private static Map<String, JavaSQLFunc.Evaluable<String>> funcEvaluatorMap = new HashMap<String, JavaSQLFunc.Evaluable<String>>();
 
   protected Exp whereClause;
