@@ -112,8 +112,8 @@ public class DefaultVisitor extends BaseVisitor {
 
   public void visit(final InsertQuery insertQuery) throws QueryException {
     final LinkedHashMap<String, Object> columnValues = insertQuery.getColumnsValues();
-    for (final Object column : columnValues.keySet())
-      acceptOrVisitValue(columnValues.get(column));
+    for (final Object column : columnValues.values())
+      acceptOrVisitValue(column);
   }
 
   public void visit(final DeleteQuery deleteQuery) throws QueryException {

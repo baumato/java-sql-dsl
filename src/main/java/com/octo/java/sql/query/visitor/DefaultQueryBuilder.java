@@ -24,6 +24,7 @@ import static com.octo.java.sql.util.StringUtils.join;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import com.octo.java.sql.exp.BetweenExp;
 import com.octo.java.sql.exp.Column;
@@ -287,14 +288,14 @@ public class DefaultQueryBuilder extends BaseVisitor {
 
     boolean firstOrderBy = true;
     final Map<String, Order> orderBy = query.getOrderBy();
-    for (final String orderByColumn : orderBy.keySet()) {
+    for (final Entry<String, Order> orderByColumnEntry : orderBy.entrySet()) {
       if (firstOrderBy) {
         result.append(" ").append(ORDER_BY).append(" ");
         firstOrderBy = false;
       } else
         result.append(", ");
-      result.append(orderByColumn);
-      final Order columnOrder = orderBy.get(orderByColumn);
+      result.append(orderByColumnEntry.getKey());
+      final Order columnOrder = orderByColumnEntry.getValue();
       if (columnOrder != null)
         result.append(" ").append(columnOrder.toString());
     }
@@ -343,13 +344,13 @@ public class DefaultQueryBuilder extends BaseVisitor {
     result.append(CLOSE_BRACKET).append(" ");
     result.append(VALUES).append(" ").append(OPEN_BRACKET);
     boolean firstClause = true;
-    for (final Object column : columnValues.keySet()) {
+    for (final Entry<String, Object> columnEntry : columnValues.entrySet()) {
       if (firstClause) {
         firstClause = false;
       } else {
         result.append(", ");
       }
-      acceptOrVisitValue(columnValues.get(column), (String) column);
+      acceptOrVisitValue(columnEntry.getValue(), columnEntry.getKey());
     }
     result.append(CLOSE_BRACKET);
   }
