@@ -34,11 +34,13 @@ public class Nullable implements Visitable {
   public boolean isNull() {
     return value == null;
   }
-
+  
   @Override
   public boolean equals(final Object obj) {
     if (obj == null)
       return false;
+    if (obj == this)
+      return true;
     if (!(obj instanceof Nullable))
       return false;
 
@@ -47,6 +49,11 @@ public class Nullable implements Visitable {
       return otherObj.getValue() == null;
     else
       return value.equals(otherObj.getValue());
+  }
+  
+  @Override
+  public int hashCode() {
+    return (value == null) ? 0 : value.hashCode();
   }
 
   public void accept(final QueryVisitor visitor) throws QueryException {
