@@ -125,59 +125,6 @@ public class StringUtils {
 
   /**
    * <p>
-   * Joins the elements of the provided <code>Iterator</code> into a single String containing the provided
-   * elements.
-   * </p>
-   *
-   * <p>
-   * No delimiter is added before or after the list. Null objects or empty strings within the iteration are
-   * represented by empty strings.
-   * </p>
-   *
-   * <p>
-   * See the examples here: {@link #join(Object[],char)}.
-   * </p>
-   *
-   * @param iterator
-   *          the <code>Iterator</code> of values to join together, may be null
-   * @param separator
-   *          the separator character to use
-   * @return the joined String, <code>null</code> if null iterator input
-   * @since 2.0
-   */
-  public static String join(Iterator<?> iterator, char separator) {
-
-    // handle null, zero and one elements before building a buffer
-    if (iterator == null) {
-      return null;
-    }
-    if (!iterator.hasNext()) {
-      return EMPTY;
-    }
-    Object first = iterator.next();
-    if (!iterator.hasNext()) {
-      return toString(first);
-    }
-
-    // two or more elements
-    StringBuilder buf = new StringBuilder(256); // Java default is 16, probably too small
-    if (first != null) {
-      buf.append(first);
-    }
-
-    while (iterator.hasNext()) {
-      buf.append(separator);
-      Object obj = iterator.next();
-      if (obj != null) {
-        buf.append(obj);
-      }
-    }
-
-    return buf.toString();
-  }
-
-  /**
-   * <p>
    * Gets the <code>toString</code> of an <code>Object</code> returning an empty string ("") if
    * <code>null</code> input.
    * </p>
