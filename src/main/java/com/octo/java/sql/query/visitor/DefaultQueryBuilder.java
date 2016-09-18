@@ -67,7 +67,7 @@ public class DefaultQueryBuilder extends BaseVisitor {
 
   protected final StringBuilder result = new StringBuilder();
   private int variableIndex = 1;
-  private final Map<String, Object> params = new HashMap<String, Object>();
+  private final Map<String, Object> params = new LinkedHashMap<String, Object>();
   private boolean addBracketToNextSelectQuery = false;
   private final Map<String, Evaluable<?>> functions = new HashMap<String, Evaluable<?>>();
 
@@ -105,7 +105,7 @@ public class DefaultQueryBuilder extends BaseVisitor {
       return defaultName;
   }
 
-  private void acceptOrVisitValue(final Object value, final String baseName)
+  protected void acceptOrVisitValue(final Object value, final String baseName)
       throws QueryException {
     if (value instanceof Visitable)
       ((Visitable) value).accept(this);
