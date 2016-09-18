@@ -17,7 +17,7 @@
 package com.octo.java.sql;
 
 import static com.octo.java.sql.query.Query.insertInto;
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 import java.util.Map;
 
@@ -25,6 +25,7 @@ import org.junit.Test;
 
 import com.octo.java.sql.query.InsertQuery;
 import com.octo.java.sql.query.QueryException;
+import com.octo.java.sql.query.QueryGrammarException;
 
 public class InsertQueryTest {
   @Test
@@ -69,5 +70,18 @@ public class InsertQueryTest {
     assertEquals(2, params.size());
     assertEquals("", params.get("column11"));
     assertEquals(null, params.get("column22"));
+  }
+  
+  @Test
+  public void testShouldNotAllowToSetSameColumnTwice() throws Exception {
+    try {
+      InsertQuery query = insertInto("table").set("column1", "value1")
+        .set("column2", "value2")
+        .set("column1", "error");
+      fail("Should throw exception and not give: " + query);
+    } catch (Exception e) {
+       assertTrue(e instanceof QueryGrammarException);
+       assertTrue(e.getMessage().contains("column1"));
+    }
   }
 }
