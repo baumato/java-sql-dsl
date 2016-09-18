@@ -40,10 +40,6 @@ public abstract class Query<T extends Query<T>> implements Visitable {
    */
   private static final Logger logger = Logger.getLogger(Query.class.getName());
 
-  /**
-   * Set it to false when using HSQLDB
-   */
-  public static final boolean oracleDialect = true;
   private static Map<String, JavaSQLFunc.Evaluable<String>> funcEvaluatorMap = new HashMap<String, JavaSQLFunc.Evaluable<String>>();
 
   protected Exp whereClause;
